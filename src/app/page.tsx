@@ -22,11 +22,11 @@ export default function Home() {
 
   return (
     <main style={{ textAlign: 'center', paddingTop: '100px' }}>
-      <h1>Click Count: {count ?? 'Loading...'}</h1>
+      <h1 style={{ fontSize: '40px' }}>Global Click Count: {count ?? 'Loading...'}</h1>
       <button
         onClick={handleClick}
         disabled={loading}
-        style={{ fontSize: '24px', padding: '10px 20px', marginTop: '20px' }}
+        style={{ fontSize: '30px', padding: '10px 20px', marginTop: '20px', cursor: 'pointer' }}
       >
         {loading ? 'Clicking...' : 'Click Me!'}
       </button>
