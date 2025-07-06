@@ -6,17 +6,38 @@ export default function Home() {
   const [count, setCount] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
 
+  // Fetch count from API
+  const fetchCount = async () => {
+    try {
+      const res = await fetch('/api/click')
+      const data = await res.json()
+      setCount(data.count)
+    } catch (err) {
+      console.error('Error fetching count:', err)
+    }
+  }
+
+  // Initial fetch + polling every 1 second
   useEffect(() => {
-    fetch('/api/click')
-      .then(res => res.json())
-      .then(data => setCount(data.count))
+    fetchCount() // initial fetch
+
+    const interval = setInterval(() => {
+      fetchCount()
+    }, 1000)
+
+    return () => clearInterval(interval) // cleanup on unmount
   }, [])
 
+  // Handle button click
   const handleClick = async () => {
     setLoading(true)
-    const res = await fetch('/api/click', { method: 'POST' })
-    const data = await res.json()
-    setCount(data.count)
+    try {
+      const res = await fetch('/api/click', { method: 'POST' })
+      const data = await res.json()
+      setCount(data.count)
+    } catch (err) {
+      console.error('Error clicking:', err)
+    }
     setLoading(false)
   }
 
